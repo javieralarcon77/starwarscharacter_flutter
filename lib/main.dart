@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:starwarscharacter/src/pages/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,18 +12,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Star Wars Character',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text("Star Wars Character"),
-        ),
-        body: const Center(
-          child: Text("Star Wars App")
-        )
-      )
+      home: HomePage()
     );
   }
 }
