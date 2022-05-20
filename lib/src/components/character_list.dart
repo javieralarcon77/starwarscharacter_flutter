@@ -86,13 +86,12 @@ class CharacterListState extends State<CharacterList>{
   Widget _buildItem (BuildContext context, CharacterModel character) {
     return Card(
       key: Key(character.id),
-      child: Column(
-        children: [
-          ListTile(
-            title: Text(utf8.decode(character.name.runes.toList())),
-            subtitle: Text(character.gender),
-          )
-        ],
+      child: ListTile(
+        title: Text(utf8.decode(character.name.runes.toList())),
+        subtitle: Text(character.gender),
+        leading: CircleAvatar(
+          backgroundImage: AssetImage( 'assets/img/characters/${character.id}.jpeg'),
+        ),
       ),
     );
   }
