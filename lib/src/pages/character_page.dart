@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:starwarscharacter/src/components/character_line.dart';
 import 'package:starwarscharacter/src/components/character_url.dart';
+import 'package:starwarscharacter/src/components/film_list.dart';
 import 'package:starwarscharacter/src/model/character_model.dart';
 
 class CharacterPageArguments {
@@ -27,6 +28,7 @@ class CharacterPage extends StatelessWidget {
           children: [
             _characterImage(context, character),
             _characterData(character),
+            FilmList(filmListUrl: List<String>.from(character.films))
           ],
         ),
       )

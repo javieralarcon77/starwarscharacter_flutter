@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:starwarscharacter/src/model/character_model.dart';
+import 'package:starwarscharacter/src/model/film_model.dart';
 
 class ApiProvider {
   final String _url = 'https://swapi.dev/api';
@@ -37,5 +38,17 @@ class ApiProvider {
     
     final Map<String, dynamic> decodedData = json.decode(resp.body);
     return decodedData["name"];
+  }
+
+  Future <List<FilmModel>> loadFilms (List<String> urlList) async {
+    final promises = urlList.map((url) async {
+      final resp = await http.get(Uri.parse(url));
+      final Map<String, dynamic> decodedData = json.decode(resp.body);
+      return FilmModel.formJson(decodedData);
+    });
+
+    final List<FilmModel> films = await Future.wait(promises);
+    films.sort((a, b) => a.episodeId - b.episodeId);
+    return films;
   }
 }
