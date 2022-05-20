@@ -55,12 +55,28 @@ class HomePageState extends State<HomePage> {
     }
   }
 
+  void goToSearch () {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) {
+          return const SearchPage();
+        },
+      )
+    );
+  }
+
   @override
   Widget build(BuildContext context){
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Star Wars Character"),
+        actions: [
+          IconButton(
+            onPressed: goToSearch, 
+            icon: const Icon(Icons.search)
+          )
+        ],
       ),
       body: SingleChildScrollView(
         controller: scrollController,

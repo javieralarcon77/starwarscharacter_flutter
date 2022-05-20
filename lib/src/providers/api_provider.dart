@@ -8,6 +8,16 @@ class ApiProvider {
   Future <List<CharacterModel>> loadCharacters ({ int page = 1 }) async {
 
     final url = '$_url/people/?page=$page';
+    return mapCharacters(url);
+  }
+
+  Future <List<CharacterModel>> searchCharacters ({ int page = 1, String search = "" }) async {
+
+    final url = '$_url/people/?page=$page&search=$search';
+    return mapCharacters(url);
+  }
+
+  Future <List<CharacterModel>> mapCharacters (String url) async {
     final resp = await http.get(Uri.parse(url));
     
     final Map<String, dynamic> decodedData = json.decode(resp.body);
