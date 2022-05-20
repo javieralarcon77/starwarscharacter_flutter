@@ -1,6 +1,18 @@
-# starwarscharacter
+# Star Wars Character
 
-A new Flutter project.
+Proyecto de flutter realizado siguiendo el reto de Febrero de
+los retos del challenge de @mouredev
+
+- [Link de los retos](https://github.com/mouredev/Monthly-App-Challenge-2022)
+
+# Screenshots
+
+- <p>Home</p>
+  <img src="./screens/home.png" style="height: 30%; width:30%;"/>
+- <p>Buscador</p>
+  <img src="./screens/search.png" style="height: 30%; width:30%;"/>
+- <p>Personaje</p>
+  <img src="./screens/character-detail.png" style="height: 30%; width:30%;"/>
 
 ## Getting Started
 
