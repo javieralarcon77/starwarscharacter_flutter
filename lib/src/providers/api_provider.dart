@@ -21,4 +21,11 @@ class ApiProvider {
     });
     return characters;
   }
+
+  Future <String> loadPlanet ({ required String url}) async {
+    final resp = await http.get(Uri.parse(url));
+    
+    final Map<String, dynamic> decodedData = json.decode(resp.body);
+    return decodedData["name"];
+  }
 }

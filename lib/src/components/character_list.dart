@@ -3,78 +3,19 @@ import 'package:flutter/material.dart';
 import 'dart:convert' show utf8;
 
 import 'package:starwarscharacter/src/model/character_model.dart';
-import 'package:starwarscharacter/src/providers/api_provider.dart';
+import 'package:starwarscharacter/src/pages/character_page.dart';
 
-class CharacterList extends StatefulWidget {
-  const CharacterList({ super.key });
-
-  @override
-  CharacterListState createState() => CharacterListState();
-}
-
-class CharacterListState extends State<CharacterList>{
-  final apiProvider = ApiProvider();
-  final scrollController = ScrollController();
-
-  List<CharacterModel> characterList = [];
-  int pageCurrent = 1;
-  bool isMore = true;
-  bool isLoading = true;
-
-  loadCharacters() async {
-    final characters = await apiProvider.loadCharacters(page: pageCurrent);
-    setState(() {
-      isLoading = false;
-      characterList = [...characters];
-    });
-  }
-
-  nextCharacters() async {
-    final characters = await apiProvider.loadCharacters(page: pageCurrent + 1);
-    setState(() {
-      characterList.addAll(characters);
-      pageCurrent = pageCurrent + 1;    
-      isMore = characters.isNotEmpty;
-      isLoading = false;
-    });
-  }
+class CharacterList extends StatelessWidget {
   
-  @override
-  void initState(){
-    super.initState();
-    loadCharacters();    
-    scrollController.addListener(listenScroll);
-  }
+  final List<CharacterModel> characterList;
 
-  void listenScroll(){
-    if (scrollController.position.atEdge){
-      final isTop = scrollController.position.pixels == 0;
-      if (!isTop && isMore) {
-        setState(() { isLoading = true; });
-        nextCharacters();
-      }
-    }
-  }
+  const CharacterList({ 
+    super.key, 
+    required this.characterList 
+  });  
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      controller: scrollController,
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 50.0),
-        child: Column(
-          children: [
-            _buildList(),
-            isLoading ?
-              const CircularProgressIndicator() :
-              Container()
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildList () {
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
@@ -83,16 +24,30 @@ class CharacterListState extends State<CharacterList>{
     );
   }
 
+  void goToCharacter(BuildContext context, CharacterModel character){
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) {
+          return const CharacterPage();
+        },
+        settings: RouteSettings(
+          arguments: CharacterPageArguments(character)
+        )
+      )
+    );
+  }
+
   Widget _buildItem (BuildContext context, CharacterModel character) {
-    return Card(
+    return ListTile(
       key: Key(character.id),
-      child: ListTile(
-        title: Text(utf8.decode(character.name.runes.toList())),
-        subtitle: Text(character.gender),
-        leading: CircleAvatar(
-          backgroundImage: AssetImage( 'assets/img/characters/${character.id}.jpeg'),
-        ),
+      onTap: () => goToCharacter(context, character),
+      title: Text(utf8.decode(character.name.runes.toList())),
+      subtitle: Text(character.gender),
+      leading: CircleAvatar(
+        backgroundImage: AssetImage( 'assets/img/characters/${character.id}.jpeg'),
       ),
+      trailing: const Icon(Icons.arrow_forward_ios),
+      enableFeedback: true,
     );
   }
 }
